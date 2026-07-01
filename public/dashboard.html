@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Smart Vitrine</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">Smart Vitrine Analytics</a>
+
+            <div class="navbar-nav me-auto">
+                <a class="nav-link text-white active" href="#">Painel de Controle</a>
+            </div>
+            <a href="/camera/index.html" class="btn btn-outline-light btn-sm">Abrir Câmera</a>
+
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h2 class="text-secondary fw-bold">
+            Visão Geral
+        </h2>
+        <hr>
+
+        <div class="row mb-5">
+            <div class="col-md-4 mb-3">
+                <div class="card text-white bg-primary shadow-sm h-100">
+                    <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                        <h6 class="card-title text-uppercase fw-bold">
+                            Total de Interações (Scans)
+                        </h6>
+
+                        <h2 class="card-text fw-bold mb=0" id="cardTotalScans">
+                            --
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card text-text-white bg-sucess shadow-sm h-100">
+                    <div class="card-body d-flex flex-column justify-content-center-align-items-center">
+                        <h6 class="card-title text-uppercase fw-bold">
+                            Tempo Total de Ativação
+                        </h6>
+                        <h2 class="card-text fw-bold mb-0" id="cardTempoTotal">
+                            --
+                        </h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <div class="card text-dark bg-warning shadiw-sm h-100">
+                    <div class="card-body d-flex flex-column justify-content-center align-items-center text-center">
+                        <h6 class="card-title text-uppercase fw-bold">
+                            Produto Mais Popular
+                        </h6>
+                        <h4 class="card-text fw-bold md-0" id="cardTopProduto">
+                            --
+                        </h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <h4 class="text-secondary mb-3">
+                    Ranking de Produtos
+                </h4>
+                <div class="table-responsive bg-white shadow-sm rounded">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>#</th>
+                                <th>Produto</th>
+                                <th>Scnas</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaRanking">
+                            <tr>
+                                <td colspan="3" class="text-center text-muted"> Carregando...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="col-md-8 mb-4">
+                <h4 class="text-secondary mb-3"> Histórico de Presença
+                </h4>
+                <div class="table-responsive bg-white shadow-sm rounded" style="max-height: 400px; overflow-y: auto;">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-dark" style="position: sticky; top: 0;z-index: 1; ">
+                            <tr>
+                                <th>Log ID</th>
+                                <th>Produto Visualizado</th>
+                                <th>Tempo de Permanência</th>
+                                <th>Data e Hora</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaHistorico">
+                            <tr>
+                                <td colspan="4" class="text-center text-muted">
+                                    Carregando...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function carregarDashboard() {
+            try {
+                const resposta = await fetch('/api/dashboard')
+                if (!resposta.ok) throw new Error("Erro ao buscar dados.")
+                const dados = await resposta.json()
+
+                document.getElementById('cardTotalScans').innerText = dados.totalScans
+                document.getElementById('cardTempoTotal').innerText = dados.tempoAtivacao
+                document.getElementById('cardTopProduto').innerText = dados.ranking.length > 0 ? dados.ranking[0].produtoNome : 'Nenhum'
+
+                const tbodyRanking = document.getElementById('tabelaRanking')
+                tbodyRanking.innerHTML = ''
+                if (dados.ranking.length === 0) {
+                    tbodyRanking.innerHTML = `<tr><td colspan="3" class="text-center">Sem dados</td></tr>`
+                } else {
+                    dados.ranking.forEach((item, index) => {
+                        tbodyRanking.innerHTML += `
+                         <tr>
+                                <td><strong>${index + 1}º</strong></td>
+                                <td>${item.produtoNome}</td>
+                                <td><span class="badge bg-primary">${item.quantidade}</span></td>
+                            </tr>
+                        `
+                    });
+                }
+
+                const tbodyHistorico = document.getElementById('tabelaHistorico')
+                tbodyHistorico.innerHTML = ''
+
+                if (dados.historico.length === 0) {
+                    tbodyHistorico.innerHTML = `<tr><td colspan="4" class="text-center">Nenhuma presença registrada ainda.</td></tr>`
+                } else {
+                    dados.historico.forEach(log => {
+                        const dataFormatoBR = log.entrada ? new Date(log.entrada).toLocaleString('pt-BR') : 'Data não disponível';
+
+                        tbodyHistorico.innerHTML += `
+        <tr>
+            <td>#${log.id}</td>
+            <td><strong>${log.produtoNome}</strong></td>
+            <td><span class="badge bg-info text-dark">${log.duracao}</span></td>
+            <td>${dataFormatoBR}</td>
+        </tr>
+    `
+                    })
+                }
+
+
+            } catch (error) {
+                console.error("Erro ao carregar o dashboard:", erro);
+                document.getElementById('tabelaHistorico').innerHTML = `<tr><td colspan="4" class="text-center text-danger">Erro de conexão com o banco.</td></tr>`
+            }
+
+        }
+        carregarDashboard()
+        setInterval(carregarDashboard, 3000)
+    </script>
+</body>
+
+</html>
