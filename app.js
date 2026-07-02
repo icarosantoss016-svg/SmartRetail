@@ -3,15 +3,13 @@ const path = require('path')
 
 const app = express()
 
-app.set('view engine', 'ejs')//diz ao express para usar o EJS como motor visual
-app.set('views', path.join(__dirname, 'views'))//seleciono o dir onde estão minhas views 
+app.set('view engine', 'ejs')
+app.set('views', path.join(__dirname, 'views'))
 
-//Aqui eu permito que o Express leia o corpo das res
-app.use(express.json())//leitura do JSON
-app.use(express.urlencoded({ extended: true }))//leitura de formulários HTML
 
-app.use(express.static(path.join(__dirname, 'public'))) //seleciono tudo dentro do dir public
-
+app.use(express.json({ limit: '50mb' }))
+app.use(express.urlencoded({ limit: '50mb', extended: true }))
+app.use(express.static(path.join(__dirname, 'public'))) 
 
 //----------ROTAS-----------
 
@@ -35,4 +33,4 @@ app.use('/usuario', usuariosRoutes)
 app.use('/vitrine', vitrineRoutes)
 app.use('/auth', authRoutes)
 
-module.exports = app 
+module.exports = app

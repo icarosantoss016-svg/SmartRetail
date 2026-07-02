@@ -5,29 +5,31 @@ const vitrineEstado = require('../config/vitrineEstado')
 const mqttClient = require('../config/mqtt') 
 
 async function detectarPresenca(idVitrine, payload) {
-    const { duracaoMs } = payload
+    const {duracaoMs, distanciaMedia, intensidadeLed} = payload
 
-    if (!duracaoMs) {
+    if(!duracaoMs){
         return console.log(`[Vitrine ${idVitrine}] Presença não detectada.`)
     }
 
     try {
-        const produtoIdInteragido = vitrineEstado.obterProdutoAtivo(idVitrine);
+        const produtoIdInteragido = vitrineEstado.obterProdutoAtivo(idVitrine)
 
         await PresencaLog.create({
-            entrada: new Date(Date.now() - duracaoMs),
+       entrada: new Date(Date.now() - duracaoMs),
             saida: new Date(),
             duracao: duracaoMs,
-            produtoId: produtoIdInteragido, 
-            idVitrine: idVitrine            
-        });
+            produtoId: produtoIdInteragido,
+            idVitrine: idVitrine,
+            distanciaMedia: distanciaMedia, 
+            intensidadeLed: intensidadeLed  
+        })
 
-        console.log(`[Vitrine ${idVitrine}] Presença registrada. Duração: ${duracaoMs / 1000}s | Produto: ${produtoIdInteragido || 'Nenhum'}`);
-        
-        vitrineEstado.limpar(idVitrine);
+         console.log(`[Vitrine ${idVitrine}] Presença registrada. Duração: ${duracaoMs / 1000}s | Dist: ${distanciaMedia}cm | LED: ${intensidadeLed}%`)
 
-    } catch (err) {
-        console.error(`Erro ao registrar presença da Vitrine ${idVitrine}:`, err.message);
+         vitrineEstado.limpar(idVitrine)
+
+    } catch (error) {   
+        console.error(`Erro ao registrar presença da Vitrine ${idVitrine}:`, error.message)
     }
 }
 
@@ -58,8 +60,5 @@ async function detectarNfc(idVitrine, payload) {
     }
 }
 
-async function medirDistancia(idVitrine, payload) {
 
-}
-
-module.exports = { detectarPresenca, detectarNfc, medirDistancia }
+module.exports = { detectarPresenca, detectarNfc }

@@ -9,7 +9,7 @@ module.exports = (req,res,next)=>{
         return res.status(401).json({error:'Token não fornecido.'})
     }
 
-    const token = authHeader.split('')[1]
+    const token = authHeader.split(' ')[1]
     try {
         const decoded = jwt.verify(token, SECRET)
         req.usuario = decoded

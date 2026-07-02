@@ -22,21 +22,22 @@ async function buscarProdutoId(req, res) {
         }
 
         await ScanLog.create({ produtoId: produto.produtoId })
-        vitrineEstado.definirProdutoAtivo(produto.produtoId)
+        
+        const idVitrine = req.query.vitrine ? parseInt(req.query.vitrine) : 1
+        
+        vitrineEstado.definirProdutoAtivo(idVitrine, produto.produtoId)
 
         if (produto.cor) {
             const payloadCor = JSON.stringify({ hex: produto.cor });
-            
-            mqttClient.publish('vitrine/cor', payloadCor);
-            
-            console.log(`[MQTT] Cor ${produto.cor} enviada para o ESP32 da vitrine!`);
+            mqttClient.publish(`vitrine/${idVitrine}/cor`, payloadCor);
+            console.log(`[MQTT] Cor ${produto.cor} enviada para vitrine/${idVitrine}/cor`);
         }
 
-        res.status(200).json({ produto })
+        return res.status(200).json(produto)
 
     } catch (error) {
-        console.error("Erro ao processar requisição HTTP do produto:", error.message)
-        res.status(500).json({ erro: "Erro interno no servidor." })
+        console.error("Erro ao buscar produto por ID", error)
+        return res.status(500).json({error: "Erro interno ao buscar produto"})
     }
 }
 
