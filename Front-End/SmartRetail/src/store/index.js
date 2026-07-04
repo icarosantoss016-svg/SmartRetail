@@ -7,4 +7,4 @@ export default createStore({
         auth,
         vitrine
     }
-})
+})    
