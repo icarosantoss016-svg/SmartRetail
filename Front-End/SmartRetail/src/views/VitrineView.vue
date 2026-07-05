@@ -69,4 +69,4 @@ export default{
 .card{
     transition: border-color 0.5s ease-in-out;
 }
-</style>
+</style> 
