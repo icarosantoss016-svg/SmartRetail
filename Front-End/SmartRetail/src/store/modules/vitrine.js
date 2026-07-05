@@ -45,7 +45,7 @@
         state.vitrines.splice(index, 1, vitrinePtc)
         }
     },
-    SEARCH_BY_ID(state, vitrineSc) {
+    SEARCH_BY_ID_VITRINE(state, vitrineSc) {
         state.vitrineSelecionada = vitrineSc
     },
     }
@@ -137,7 +137,7 @@
 
         try {
         const resposta = await api.get(`vitrine/${vitrine.idVitrine}`)
-        commit('SEARCH_BY_ID', resposta.data)
+        commit('SEARCH_BY_ID_VITRINE', resposta.data)
         } catch (error) {
         commit('SET_ERRO', 'Não foi possível carregar as vitrines.')
         } finally {
