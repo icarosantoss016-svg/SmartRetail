@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import store from '../store'
+import VitrineView from '@/views/VitrineView.vue'
 
 //definindo as vue que vão carregar com as rotas
 const router = createRouter({
@@ -12,8 +13,14 @@ const router = createRouter({
     },
     {
       path: '/',
-      redirect: 'login' //aqui ele irá redirecionar ao dashboard
-    }
+      redirect: '/vitrine' //aqui ele irá redirecionar ao dashboard
+    },
+    {
+      path:'/vitrine',
+      name:'vitrine',
+      component:()=> import('../views/VitrineView.vue')
+    },
+    
 
 
   ],

@@ -16,8 +16,7 @@ client.on('connect', () => {
 client.on('message', (topico, buffer) => {
     try  {
         const payload = JSON.parse(buffer.toString())
-        
-        // Ex do tópico: "vitrine/1/presenca" -> quebrando por '/' vira ['vitrine', '1', 'presenca']
+    
         const partes = topico.split('/')
         
         if (partes[0] === 'vitrine' && partes.length === 3) {

@@ -1,6 +1,6 @@
 const mqttClient = require('../config/mqtt')
 const vitrineEstado = require ('../config/vitrineEstado')
-
+const Vitrine = require ('../models/vitrine')
 
 function getCorComplementar(req, res){
     const { hex } = req.body
@@ -23,27 +23,30 @@ function getCorComplementar(req, res){
 
 }
 
-function receberCorCamera(req,res){
-    const {hex} =req.body
+function receberCorCamera(req, res){
+   const hex = req.body.hex;
+   const vitrineId = req.body.idVitrine || 1; 
 
-    if(!hex){
-        return res.status(400).json({erro: 'Campo hex é obrigátório'})
-    }
+   if (!hex) {
+    return res.status(400).json({erro: 'Campo hex é obrigatório'})
+   }
 
-    if(vitrineEstado.obterProdutoAtivo() !==null){
+   vitrineEstado.definirCorCamera(vitrineId, hex)
+
+   if (vitrineEstado.obterProdutoAtivo(vitrineId) !== null) {
         return res.status(200).json({
             ignorado: true,
-            motivo: 'Produto NFC ativo'
+            motivo: 'Produto ativo. Cor atualizada.'
         })
-    }
+   }
 
-    const payloadCor = JSON.stringify({hex: hex})
+   const topicoDinamico = `vitrine/${vitrineId}/cor`;
+   const payloadCor = JSON.stringify({ hex: hex })
+   
+   mqttClient.publish(topicoDinamico, payloadCor)
+   console.log(`[Câmera] Cor (${hex}) enviada para o LED no tópico: ${topicoDinamico}`)
 
-    mqttClient.publish('vitrine/cor', payloadCor)
-
-    console.log(`[Câmera] Cor do cliente (${hex}) enviada para o LED da vitrine`)
-
-    return res.status(200).json({sucesso: true, cor:hex})
+   return res.status(200).json({ sucesso: true, cor: hex })
 }
 
 module.exports = { getCorComplementar, receberCorCamera }
