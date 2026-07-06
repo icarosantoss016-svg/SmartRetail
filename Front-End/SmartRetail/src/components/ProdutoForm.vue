@@ -119,4 +119,4 @@ async function handleImageChange(event) {
 function handleSubmit() {
   emit('submit', { ...form })
 }
-</script>
+</script>  
