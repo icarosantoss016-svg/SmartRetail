@@ -5,7 +5,7 @@ const state = {
     historico: [],
     ranking:[],
     tempoMedioAtivacao:'0m 0s',
-    totalScans
+    totalScans:''
   },
   carregando: false,
   erro: null,

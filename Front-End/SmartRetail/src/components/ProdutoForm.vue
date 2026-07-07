@@ -13,7 +13,7 @@
       </div>
 
       <div class="col-md-4 mb-3">
-        <label class="form-label">Cor (LED)</label>
+        <label class="form-label">Cor</label>
         <input v-model="form.cor" type="color" class="form-control form-control-color w-100" required />
       </div>
       

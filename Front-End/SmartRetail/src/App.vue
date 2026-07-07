@@ -20,15 +20,18 @@
             </li>
 
             <li class="nav-item">
-              <router-link to="/produtos" class="nav-link" active-class="active"
-                >Produtos</router-link
+              <router-link to="/produto" class="nav-link" active-class="active"
+                >Gestão Produtos</router-link
               >
             </li>
 
             <li class="nav-item">
-              <router-link to="/vitrines" class="nav-link" active-class="active"
-                >Vitrines</router-link
+              <router-link to="/GestaoVitrine" class="nav-link" active-class="active"
+                >Gestão Vitrines</router-link
               >
+            </li>
+            <li class="nav-item">
+              <router-link to="/vitrine" class="nav-link" active-class="active">Vitrine</router-link>
             </li>
           </ul>
 

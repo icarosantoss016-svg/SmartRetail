@@ -52,7 +52,7 @@ const actions = {
 
     try {
       const resposta = await api.get('/produtos')
-
+      
       commit('SET_PRODUTOS', resposta.data)
     } catch (error) {
       console.error('Erro ao buscar os produtos.', error)
