@@ -26,7 +26,7 @@
             </li>
 
             <li class="nav-item">
-              <router-link to="/GestaoVitrine" class="nav-link" active-class="active"
+              <router-link to="/gestaovitrine" class="nav-link" active-class="active"
                 >Gestão Vitrines</router-link
               >
             </li>
