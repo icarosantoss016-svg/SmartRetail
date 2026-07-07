@@ -8,7 +8,7 @@ client.on('connect', () => {
 
     client.subscribe('vitrine/+/presenca', { qos: 1 })
     client.subscribe('vitrine/+/nfc', { qos: 1 })
-    client.subscribe('vitrine/+/distancia', { qos: 1 })
+
 
     console.log('Inscrito nos tópicos dinâmicos (Multi-Vitrine).')
 })
@@ -32,9 +32,7 @@ client.on('message', (topico, buffer) => {
                 case 'nfc': 
                     sensorController.detectarNfc(idVitrine, payload); 
                     break;
-                case 'distancia': 
-                    sensorController.medirDistancia(idVitrine, payload); 
-                    break;
+            
             }
         }
     } catch (err) {

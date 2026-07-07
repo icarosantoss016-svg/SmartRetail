@@ -1,29 +1,31 @@
 <template>
-  <div class="container py-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <h2 class="text-white m-0">Gestão de Vitrines</h2>
-      <button class="btn btn-primary" @click="alternarTela">
-        {{ mostrandoFormulario ? 'Voltar para Lista' : 'Nova Vitrine' }}
-      </button>
-    </div>
+  <div class="container-fluid min-vh-100 py-4">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-secondary m-0">Gestão de Vitrines</h2>
+        <button class="btn btn-primary" @click="alternarTela">
+          {{ mostrandoFormulario ? 'Voltar para Lista' : 'Nova Vitrine' }}
+        </button>
+      </div>
 
-    <div v-if="erro" class="alert alert-danger shadow-sm mb-4" role="alert">{{ erro }}</div>
+      <div v-if="erro" class="alert alert-danger shadow-sm mb-4" role="alert">{{ erro }}</div>
 
-    <div v-if="mostrandoFormulario" class="card bg-dark text-white border-secondary p-4 shadow">
-      <VitrineForm
-        :vitrine="vitrineEmEdicao"
-        @submit="salvarVitrine"
-        @cancel="alternarTela"    
-      />
-    </div>
-        
-    <div v-else>
-      <VitrineLista
-        :vitrine="todasVitrines"
-        :estaCarregando="estaCarregando"
-        @editar="prepararEdicao"
-        @excluir="excluirVitrine"
-      />
+      <div v-if="mostrandoFormulario" class="card azul-escuro-card text-white border-0 p-4 shadow">
+        <VitrineForm
+          :vitrine="vitrineEmEdicao"
+          @submit="salvarVitrine"
+          @cancel="alternarTela"    
+        />
+      </div>
+          
+      <div v-else>
+        <VitrineLista
+          :vitrine="todasVitrines"
+          :estaCarregando="estaCarregando"
+          @editar="prepararEdicao"
+          @excluir="excluirVitrine"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -67,16 +69,13 @@ async function salvarVitrine(dadosDoForm) {
   } else {
     await store.dispatch('vitrine/criarVitrine', dadosDoForm)
   }
-
-  if (!erro.value) {
-    alternarTela()
-    store.dispatch('vitrine/fetchVitrine')
-  }
+  alternarTela()
 }
 
-function excluirVitrine(idVitrine) {
-  if (confirm('Tem certeza que deseja excluir esta vitrine?')) {
-    store.dispatch('vitrine/deletarVitrine', idVitrine)
+async function excluirVitrine(idVitrine) {
+  if (confirm('Deseja realmente excluir esta vitrine?')) {
+    await store.dispatch('vitrine/deletarVitrine', idVitrine)
   }
 }
 </script>
+

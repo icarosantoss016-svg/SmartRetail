@@ -6,7 +6,7 @@
 
         <button
           class="navbar-toggler"
-          type="buttom"
+          type="button"
           data-bs-toggle="collapse"
           data-bs-target="#menuPrincipal"
         >
@@ -16,7 +16,7 @@
         <div class="collapse navbar-collapse" id="menuPrincipal">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <router-link to="/" class="nav-link" active-class="active">Dashboard</router-link>
+              <router-link to="dashboard" class="nav-link" active-class="active">Dashboard</router-link>
             </li>
 
             <li class="nav-item">
@@ -73,6 +73,7 @@ export default {
 <style>
 body {
   background-color: #f8f9fa;
+  color: #212529; 
   margin: 0;
 }
 </style>

@@ -11,7 +11,7 @@ const router = createRouter({
     },
     {
       path: '/',
-      redirect: '/produto' 
+      redirect: '/dashboard' 
     },
     {
       path: '/vitrine', 
@@ -30,6 +30,12 @@ const router = createRouter({
       name: 'gestaoVitrine',
       component: () => import('../views/GestaoVitrineView.vue'),
       meta: { requiresAuth: true } 
+    },
+    {
+      path:'/dashboard',
+      name:'dashboard',
+      component:()=> import('../views/DashboardView.vue'),
+      meta:{requiresAuth:true}
     }
   ],
 })
