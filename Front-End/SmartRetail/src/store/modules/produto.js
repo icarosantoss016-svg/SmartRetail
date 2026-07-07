@@ -85,7 +85,7 @@ const actions = {
     }
   },
 
-  async updadeProduto({ commit }, produto) {
+  async updateProduto({ commit }, produto) {
     commit('SET_CARREGANDO', true)
     commit('SET_ERRO', null)
 

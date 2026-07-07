@@ -3,7 +3,7 @@
     <img
       v-if="produto.imagem"
       :src="produto.imagem"
-      class="car-img-top"
+      class="card-img-top"
       style="height: 200px; object-fit: cover"
     />
 
@@ -37,7 +37,7 @@
     </div>
     <div class="card-footer bg-transparent border-secondary d-flex justify-content-between">
       <button @click="$emit('editar', produto)" 
-      class="btn-outline-info btn-sm">Editar</button>
+      class="btn btn-outline-info btn-sm">Editar</button>
 
       <button @click="$emit('excluir', produto.produtoId)"
       class="btn btn-outline-danger btn-sm">
