@@ -12,7 +12,7 @@
         {{ erro }}
       </div>
 
-      <div v-if="mostrandoFormulario" class="card azul-escuro-card text-white border-0 p-4 shadow">
+      <div v-if="mostrandoFormulario" class="card  bg-dark text-white border-0 p-4 shadow">
         <ProdutoForm
           :produto="produtoEmEdicao"
           @submit="salvarProduto"

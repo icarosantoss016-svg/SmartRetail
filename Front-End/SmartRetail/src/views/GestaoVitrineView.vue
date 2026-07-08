@@ -10,7 +10,7 @@
 
       <div v-if="erro" class="alert alert-danger shadow-sm mb-4" role="alert">{{ erro }}</div>
 
-      <div v-if="mostrandoFormulario" class="card azul-escuro-card text-white border-0 p-4 shadow">
+      <div v-if="mostrandoFormulario" class="card bg-dark text-white border-0 p-4 shadow">
         <VitrineForm
           :vitrine="vitrineEmEdicao"
           @submit="salvarVitrine"
@@ -34,7 +34,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import VitrineLista from '@/components/VitrineLista.vue'
-import VitrineForm from '@/components/VitrineForms.vue' 
+import VitrineForm from '@/components/vitrineForms.vue' 
 
 const store = useStore()
 

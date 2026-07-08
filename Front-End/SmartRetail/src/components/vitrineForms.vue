@@ -2,11 +2,12 @@
   <form @submit.prevent="handleSubmit">
     <div class="row">
       <div class="col-md-8 mb-3">
-        <label class="form-label">Localização da Vitrine</label>
+        <label class="form-label ">Localização da Vitrine</label>
         <input
           v-model="form.localizacao"
           type="text"
           class="form-control"
+          style="background-color: #ffffff !important; color: #000000 !important;"
           placeholder="Ex: Corredor Principal, Loja 1..."
           required
         />
@@ -14,7 +15,12 @@
 
       <div class="col-md-4 mb-3">
         <label class="form-label">Status</label>
-        <select v-model="form.statusVitrine" class="form-select" required>
+        <select
+          v-model="form.statusVitrine"
+          class="form-select"
+          style="background-color: #ffffff !important; color: #000000 !important;"
+          required
+        >
           <option value="ATIVA">ATIVA</option>
           <option value="DESATIVADA">DESATIVADA</option>
           <option value="MANUTENÇÃO">MANUTENÇÃO</option>
@@ -37,8 +43,8 @@ import { reactive, watch } from 'vue'
 const props = defineProps({
   vitrine: {
     type: Object,
-    default: null
-  }
+    default: null,
+  },
 })
 
 const emit = defineEmits(['submit', 'cancel'])
@@ -46,7 +52,7 @@ const emit = defineEmits(['submit', 'cancel'])
 const form = reactive({
   idVitrine: null,
   localizacao: '',
-  statusVitrine: 'ATIVA'
+  statusVitrine: 'ATIVA',
 })
 
 watch(
@@ -61,8 +67,8 @@ watch(
       form.localizacao = ''
       form.statusVitrine = 'ATIVA'
     }
-  }, 
-  { immediate: true }
+  },
+  { immediate: true },
 )
 
 function handleSubmit() {
