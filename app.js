@@ -14,7 +14,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 app.use(cors())
 
-//----------ROTAS-----------
+
 
 const colorRoutes = require('./routes/colorRoutes')
 const produtosRoutes = require('./routes/produtosRoutes')

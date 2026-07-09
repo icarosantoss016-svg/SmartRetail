@@ -21,11 +21,20 @@ async function buscarProdutoId(req, res) {
             return res.status(404).json({erro: "Produto não encontrado."})
         }
 
-        await ScanLog.create({ produtoId: produto.produtoId })
-        
         const idVitrine = req.query.vitrine ? parseInt(req.query.vitrine) : 1
         
+        const produtoIdAtivo = vitrineEstado.obterProdutoAtivo(idVitrine)
+
+        if (produtoIdAtivo !== produto.produtoId) {
+            await ScanLog.create({ produtoId: produto.produtoId })
+            console.log(`[Vitrine ${idVitrine}] Novo scan registrado: ${produto.nome}`)
+        } else {
+            console.log(`[Vitrine ${idVitrine}] Busca de dados pelo Front-end ignorada para o log.`)
+        }
+
+
         vitrineEstado.definirProdutoAtivo(idVitrine, produto.produtoId)
+  
 
         if (produto.cor) {
             const payloadCor = JSON.stringify({ hex: produto.cor });
@@ -61,7 +70,7 @@ async function deletarProduto(req,res) {
         if (linhasDeletadas === 0){
             return res.status(404).json({error:"Produto não encontrado"})
         }
-        return res.status(200).json({mesnsagem:"Produto deletado com sucesso."})
+        return res.status(200).json({mensagem:"Produto deletado com sucesso."})
     } catch (error) {
         console.error("Erro ao deletar produto", error)
         return res.status(500).json({ erro: "Erro ao deletar o produto." })

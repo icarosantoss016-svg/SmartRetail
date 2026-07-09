@@ -31,7 +31,7 @@ module.exports = {
             }
         }
 
-        const tempoMaximo = 30 * 1000 
+        const tempoMaximo = 300 * 1000 
         if (estado.produtoId && (Date.now() - estado.timestampDoScan > tempoMaximo)) {
             console.log(`[ESTADO] Scan da Vitrine #${idVitrine} expirou`)
             estado.produtoId = null

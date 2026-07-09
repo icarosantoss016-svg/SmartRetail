@@ -14,19 +14,19 @@ const PresencaLog = sequelize.define('PresencaLog', {
         defaultValue: null
     },
     duracao:{
-        type:DataTypes.INTEGER,
+        type:DataTypes.FLOAT,
         allowNull:true
     },
     produtoId:{
-        type: DataTypes.INTEGER,
+        type: DataTypes.FLOAT,
         allowNull:true
     },
     intensidadeLed:{
-        type:DataTypes.NUMBER,
+        type:DataTypes.FLOAT,
         allowNull:true
     },
     distanciaMedia:{
-        type:DataTypes.NUMBER,
+        type:DataTypes.FLOAT,
         allowNull:true,
     },
     idVitrine:{
