@@ -17,7 +17,7 @@
 
       <div class="card-body text-center">
         <h2 class="card-title">{{ produtoAtual.nome }}</h2>
-        <h5 class="text-muted">
+        <h5 class="text-white">
           {{ produtoAtual.categoria }} | {{ produtoAtual.tipoTecido }}
         </h5>
         <h1 class="display-4 text-success mt-3">
